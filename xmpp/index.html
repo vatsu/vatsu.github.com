@@ -1,0 +1,304 @@
+<!doctype html>  
+<html lang="pt-BR">
+	
+	<head>
+		<meta charset="utf-8">
+		
+		<title>XMPP e Real Time Web</title>
+
+		<meta name="description" content="XMPP e Real Time">
+		<meta name="author" content="Gustavo Sales">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		
+		<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+		
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+	
+	<body>
+		
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h1>XMPP</h1>
+					<h2>& Real Time Web</h2>
+				</section>
+					
+				<section>
+					<h2>Primeiro Real Time Web..</h2>
+          <ul>
+            <li class='fragment'>responsividade da WUI</li>
+            <li class='fragment'>2-way comunication</li>
+          </ul>
+
+					<aside class="notes">
+						Real Time Web != RTC
+					</aside>
+				</section>
+				
+				<!-- Example of nested vertical slides -->
+				<section>
+          <h2>Push it/Make the beats go harder</h2>
+            <br />
+            <br />
+              <audio controls preload>
+
+                <source src="audio/pushit.mp3" audio/mp3 />
+
+              </audio>
+				</section>
+
+				<section>
+					<h2>Pollinng</h2>
+          <img src='images/polling.jpg' />
+				</section>
+
+				<section>
+          <h2>Long Polling</h2>
+          <img src='images/longpolling.jpg' />
+				</section>
+
+				<section>
+					<h2>WebSockets</h2>
+          <img src='images/websockets.png' />
+				</section>
+
+				<section>
+        <h2>Coisas menos comuns(hoje)</h2>
+					<ul>
+						<li>x-mixed-replace</li>
+						<li>flash XMLSocket relay</li>
+						<li>...</li>
+					</ul>
+				</section>
+				
+				<section>
+          <h2>Faye</h2>
+          <p>Faye é um servidor PubSub com implementações em Node.js e Ruby, com cliente em javascript</p>
+        </section>
+
+        <section data-state='soothe'>
+          <h2>Demo</h2>
+          <h3>Asterisk + Adhearsion + Faye + Sinatra</h3>
+				</section>
+
+        <section>
+				  <section>
+            <h2>XMPP</h2>
+            <p>The eXtensible Messaging and Presence Protocol</p>
+          </section>
+
+				  <section>
+            <h2>Comunicação</h2>
+            <h3>par de XML Streams</h3>
+            <img src='images/streams.gif' style='background-color:white' />
+          </section>
+
+          <section>
+            <h2>Endereçamento</h2>
+            <h3>JID - Jabber IDENTIFIER</h3>
+            <br />
+            <pre><code contenteditable>
+              zentrale.com.br
+            
+              gustavo@zentrale.com.br/home
+            
+              equipe@conference.zentrale.com.br
+            </code></pre>
+          </section>
+          
+          <section>
+            <h2>Stanzas</h2>
+            <h3>presence</h3>
+            <br />
+            <pre><code class='xml' contenteditable>
+              &lt;presence/&gt;
+
+              &lt;presence type=’unavailable’/&gt;
+
+              &lt;presence&gt;
+                &lt;show&gt;away&lt;/show&gt;
+                &lt;status&gt;@ GURU Sorocaba&lt;/status&gt;
+              &lt;/presence&gt;
+            
+            </code></pre>
+          </section>
+
+         <section>
+            <h2>Stanzas</h2>
+            <h3>Message</h3>
+            <br />
+            <pre><code class='xml' contenteditable>
+              &lt;message from=’gustavo@zentrale.com.br/home’
+                         to=’equipe@conference.zentrale.com.br’
+                         type=’groupchat’&gt;
+                &lt;body&gt;Chunky bacon!&lt;/body&gt;
+              &lt;/message&gt;
+            </code></pre>
+          </section>
+
+
+         <section>
+            <h2>Stanzas</h2>
+            <h3>Info/Query</h3>
+            <br />
+            <pre><code class='xml' contenteditable>
+       &lt;iq from=’gustavo@zentrale.com.br/home’
+               type=’get’
+               id='3423d5f'&gt;
+         &lt;query xmlns='jabber:iq:roster' /&gt;
+       &lt;/iq&gt;
+
+
+       &lt;iq to=’gustavo@zentrale.com.br/home’
+               type=’result’
+                id='3423d5f'&gt;
+        &lt;query xmlns='jabber:iq:roster'&gt;
+          &lt;item jid='danilo@zentrale.com.br' name='Danilo' /&gt;
+        &lt;/query&gt;
+      &lt;/iq&gt;
+            </code></pre>
+          </section>
+        </section>
+
+
+				<section>
+          <h2>Extensível</h2>
+          
+					<ul>
+            <li class='fragment'>Multi-User Chat</li>
+            <li class='fragment'>User Mood</li>
+            <li class='fragment'>PubSub</li>
+            <li class='fragment'>SOAP Over XMPP (Oi?)</li>
+            <li class='fragment'> E mais ~140</li>
+					</ul>
+				</section>
+
+        <section>
+          <h2>Servidores</h2>
+          <br />
+          <br />
+            <h3>ejabberd</h3>
+            <h3>openfire</h3>
+          </ul>
+        </section>
+
+				<section>
+          <h2>Tá. E a web</h2>
+          <br />
+          <br />
+          <h3 class='fragment'>WebSockets</h3>          
+        </section>
+
+        <section>
+          <h2>Servidores</h2>
+          <br />
+          <br />
+            <h3>ejabberd</h3>
+            <h3>openfire</h3>
+          <br />
+          <br />
+          <h3 class='fragment'>Suporte a websockets não é maduro ainda!!!</h3>
+        </section>
+
+        <section>
+          <h2>Hmmm...</h2>
+          <br />
+          <br />
+					<img src='images/bosch.jpg' class='fragment' />
+				</section>
+
+        <section>
+          <h2>BOSH</h2>
+          <p> Biidirectional-streams Over Synchronous HTTP</p>
+					<img src='images/bosh2.gif' /> 
+        </section>
+        
+				<section>
+          <h2>Servidor Ok. Cliente?</h2>
+          <br />
+          <h3>Javascript</h3>
+          <h4>Strophe</h4>
+          <br />
+          <h3>Ruby</h3>
+          <h4>XMPP4R</h4>
+          <h4>Blather</h4>
+          
+				</section>
+				
+				<section data-state='soothe'>
+          <h2>DEMOS</h2>
+          <br />
+          <br />
+          <p>browser + desktop client</p>
+          <br />
+          <br />
+          <p>ruby client(bot) + browser</p>
+				</section>
+				
+				<section>
+        <h2>Leitura Sugerida</h2>
+					<img src='images/book.jpg' /> 
+        </section>
+
+				<section>
+					<h1>Perguntas?</h1>
+					<br />
+					<br />
+					<h3>@vatsu</h3>
+					<h3>me@vatsu.com.br</h3>
+				</section>
+
+			</div>
+			
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+			
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/zoom-js/zoom.js', condition: function() { return !!document.body.classList; } },
+					{ src: '/socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+					{ src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } }
+				]
+			});
+			
+		</script>
+
+	</body>
+</html>
