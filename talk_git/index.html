@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Git </title>
+
+		<meta name="description" content="Git: Um Workflow">
+		<meta name="author" content="Gustavo">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css" />
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme" />
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/solarized_light.css" />
+
+		<link rel="stylesheet" href="css/git.css" />
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h1>Git</h1>
+					<h3>Gustavo Sales</h3>
+				</section>
+
+        <section>
+					<section>
+						<h3>me = Gustavo.new</h3>
+					</section>
+
+					<section data-state='quote'>
+						<img src='images/thomas-edison.jpg' />
+						<blockquote>
+							There is no substitute for hard work.
+						</blockquote>
+						<p>Thomas A. Edison</p>
+						<aside  class="notes">
+							CCE/Banco do Brasil
+						</aside>
+					</section>
+
+					<section>
+						<img src='images/colorado-demoiselle1.jpg' />
+						<aside  class="notes">
+							1001 beers to taste before you die
+						</aside>
+					</section>
+
+					<section data-state='quote'>
+						<img src='images/dijkstra.jpg' height='60%' />
+						<blockquote>
+							Simplicity is prerequisite for reliability.
+						</blockquote>
+							<p>Edsger Dijkstra</p>
+							<aside  class="notes">
+							  softex/onirium/thorus/labjor/inova
+							</aside>
+					</section>
+
+					<section>
+						<img src='images/cafe_ruins.jpg' />
+					</section>
+
+					<section data-state='quote'>
+						<img src='images/xanana.jpg' height='60%' />
+						<blockquote>
+							Freedom goes hand-in-hand with mutual respect
+						</blockquote>
+							<p>Xanana Gusmão</p>
+							<a href='http://www.jornal.gov.tl/' class='fragment fade-in'>Jornal da República</a>
+							<aside  class="notes">
+							  motivação/experiência
+							</aside>
+					</section>
+
+
+					<section data-state='quote'>
+						<img src='images/tuesdays.jpg' height='60%' />
+						<blockquote>
+							Devote yourself to loving others, devote yourself to your community around you, and devote yourself to creating something that gives you purpose and meaning.
+						</blockquote>
+							<p>Mitch Albom, Tuesdays with Morrie</p>
+					</section>
+
+					<section>
+						<img src='images/rauch.jpg' />
+						<aside  class="notes">
+							1001 beers to taste before you die
+						</aside>
+					</section>
+				</section>
+
+				<section>
+					<h2>Back to business</h2>
+				</section>
+
+				<section>
+					<section>
+						<h2>História</h2>
+					</section>
+
+					<section>
+						<h2>CVS</h2>
+						<h2 class="fragment fade-in">SVN</h2>
+					</section>
+
+					<section>
+						<h2>Branching/Merging</h2>
+						<h1>Horrível!</h1>
+					</section>
+
+					<section>
+						<h2>Alternativas</h2>
+						<ul>
+							<li>Mercurial</li>
+							<li>Baazar</li>
+							<li class='fragment highlight-red'>BitKeeper</li>
+						</ul>
+					</section>
+
+					<section>
+						<iframe width="853" height="480" src="http://www.youtube.com/embed/_36yNWw_07g" frameborder="0">
+						</iframe>
+					</section>
+				</section>
+
+				<section>
+					<section>
+							<h2>Git</h2>
+					</section>
+
+					<section>
+						<h2>Snapshots</h2>
+						<img src='images/snapshots.png' />
+					</section>
+
+					<section>
+						<h2>Check-Sum</h2>
+						<img src='images/check_sum.png' class='fragment grow' />
+					</section>
+
+					<section>
+						<h2>Três Estados</h2>
+						<img src='images/three_states.png' />
+					</section>
+
+
+					<section>
+						<h2>Git Objects</h2>
+						<pre><code class='no-highlight'>~ $ mkdir git_talk
+
+<span class='fragment fade-in'>~ $ cd git_talk
+</span>
+<span class='fragment fade-in'>~/git_talk $ git init
+Initialized empty Git repository in /Users/gustavosales/git_talk/.git/
+</span>
+<span class='fragment fade-in'>~/git_talk $ find .git/objects
+.git/objects
+.git/objects/info
+.git/objects/pack
+</span>
+<span class='fragment fade-in'>~/git_talk $ find .git/objects -type f  # looking for files
+</span>
+<span class='fragment fade-in'>~/git_talk $ echo 'hello, git!' | git hash-object -w --stdin
+171169be081d811e7adffae26cffece1af080806
+</span>
+<span class='fragment fade-in'>~/git_talk $ find .git/objects -type f
+.git/objects/17/1169be081d811e7adffae26cffece1af080806
+</span>
+<span class='fragment fade-in'>~/git_talk $ git cat-file -p 171169be081d811e7adffae26cffece1af080806
+hello, git!
+</span>
+<span class='fragment fade-in'>~/git_talk $ echo 'primeira versao' > file.txt
+</span>
+<span class='fragment fade-in'>~/git_talk $ git hash-object -w file.txt
+4a118ae4df1b2188c39623a1b0b2d4e6e6fac899
+</span>
+<span class='fragment fade-in'>~/git_talk $ echo 'segunda versao' > file.txt
+</span>
+<span class='fragment fade-in'>~/git_talk $ git hash-object -w file.txt
+9aeab9512b870bbca2d1d5416fa08477a5480f08
+</span>
+<span class='fragment fade-in'>~/git_talk $ find .git/objects -type f
+.git/objects/17/1169be081d811e7adffae26cffece1af080806
+.git/objects/4a/118ae4df1b2188c39623a1b0b2d4e6e6fac899
+.git/objects/9a/eab9512b870bbca2d1d5416fa08477a5480f08
+</span>
+<span class='fragment fade-in'>~/git_talk $ git cat-file -p 4a11 > file.txt
+</span>
+<span class='fragment fade-in'>~/git_talk $ cat file.txt
+primeira versao
+</span>
+<span class='fragment fade-in'>~/git_talk $ git cat-file -t 9aeab9512b870bbca2d1d5416fa08477a5480f08
+blob
+</span>
+<span class='fragment fade-in'>~/git_talk $ git add file.txt
+</span>
+<span class='fragment fade-in'>~/git_talk $ git commit -m 'inital commit'
+(...)
+</span>
+<span class='fragment fade-in'>~/git_talk $ git cat-file -p master^{tree}
+100644 blob 4a118ae4df1b2188c39623a1b0b2d4e6e6fac899	file.txt
+</span>
+</code></pre>
+					</section>
+
+					<section>
+						<h2>Object Types</h2>
+						<img src='images/object_types.png' />
+					</section>
+
+					<section>
+						<h2>Git References</h2>
+						<pre><code class='no-highlight'>~/git_talk $ find .git/refs
+.git/refs/heads
+.git/refs/heads/master
+.git/refs/tags
+
+<span class='fragment fade-in'>~/git_talk $ find .git/refs -type f
+.git/refs/heads/master
+</span>
+<span class='fragment fade-in'>~/git_talk $ cat .git/refs/heads/master
+5326d0454cc9c34945d8fa71cdc201810a7f2e22
+</span>
+<span class='fragment fade-in'>~/git_talk $ git cat-file -p 5326
+tree cd654e586ab343d4a53c43032b0c52e193ae7a4d
+author Gustavo Sales < gustavo.sales@jazz.etc.br > 1363109105 -0300
+committer Gustavo Sales < gustavo.sales@jazz.etc.br > 1363109105 -0300
+
+init
+</span>
+<span class='fragment fade-in'>~/git_talk $ git checkout -b feature_01
+Switched to a new branch 'feature_01'
+</span>
+<span class='fragment fade-in'>~/git_talk $ cat .git/HEAD
+ref: refs/heads/feature_01
+</span>
+<span class='fragment fade-in'>~/git_talk $ git checkout master
+Switched to branch 'master'
+
+~/git_talk $ cat .git/HEAD
+ref: refs/heads/master
+</span>
+<span class='fragment fade-in'>~/git_talk $ echo 'alteracao' >> file.txt
+
+~/git_talk $ git commit -am 'alterando file.txt'
+[master 5832d50] alterando file.txt
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+~/git_talk $ git log --pretty=oneline feature_01
+5326d0454cc9c34945d8fa71cdc201810a7f2e22 init
+
+~/git_talk $ git log --pretty=oneline master
+5832d5071e974c748ff9a507e28c157d0205bb91 alterando file.txt
+5326d0454cc9c34945d8fa71cdc201810a7f2e22 init
+</span>
+</code></pre>
+					</section>
+
+					<section>
+						<h2>References</h2>
+						<img src='images/references.png' />
+					</section>
+
+					<section>
+						<h2>Tagging</h2>
+							<pre><code class='no-highlight'>~/git_talk $ git tag v0.0.1a
+
+<span class='fragment fade-in'>~/git_talk $ cat .git/refs/tags/v0.0.1a
+5832d5071e974c748ff9a507e28c157d0205bb91
+</span>
+<span class='fragment fade-in'>~/git_talk $ git cat-file -p 5832
+tree 44b96280e1c684948d14f67b346686cfd90b9d78
+parent 5326d0454cc9c34945d8fa71cdc201810a7f2e22
+author Gustavo Sales < gustavo.sales@jazz.etc.br > 1363115243 -0300
+committer Gustavo Sales < gustavo.sales@jazz.etc.br > 1363115243 -0300
+
+alterando file.txt
+</span>
+<span class='fragment fade-in'>~/git_talk $ git tag -a v0.0.2 -m 'criando uma tag com anotacao'
+</span>
+<span class='fragment fade-in'>~/git_talk $ cat.git/refs/tags/v0.0.2
+21896d953ce2adaa0e6afa3ed879961236ebcf89
+</span>
+<span class='fragment fade-in'>~/git_talk $ git cat-file -p 2189
+object 5832d5071e974c748ff9a507e28c157d0205bb91
+type commit
+tag v0.0.2
+tagger Gustavo Sales < gustavo.sales@jazz.etc.br > Tue Mar 12 16:23:52 2013 -0300
+
+criando uma tag com anotacao
+</span>
+<span class='fragment fade-in'>~/git_talk $ git show v0.0.2
+tag v0.0.2
+Tagger: Gustavo Sales < gustavo.sales@jazz.etc.br >
+Date:   Tue Mar 12 16:23:52 2013 -0300
+
+criando uma taga com anotacao
+
+commit 5832d5071e974c748ff9a507e28c157d0205bb91
+Author: Gustavo Sales < gustavo.sales@jazz.etc.br >
+Date:   Tue Mar 12 16:07:23 2013 -0300
+
+    alterando file.txt
+
+diff --git a/file.txt b/file.txt
+index 4a118ae..f49e068 100644
+--- a/file.txt
++++ b/file.txt
+@@ -1 +1,2 @@
+ primeira versao
++alteracao
+</span>
+</code></pre>
+					</section>
+
+					<section>
+						<h2>Remote</h2>
+						<pre><code class='no-highlight'>~/git_talk $ git remote add origin git@git.jazzbr.com:gustavosales/git_talk.git
+
+<span class='fragment fade-in'>~/git_talk $ git push origin master
+Counting objects: 6, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (6/6), 479 bytes, done.
+Total 6 (delta 0), reused 0 (delta 0)
+To git@git.jazzbr.com:gustavosales/git_talk.git
+ * [new branch]      master -> master
+</span>
+<span class='fragment fade-in'>~/git_talk $ cat .git/refs/remotes/origin/master
+5832d5071e974c748ff9a507e28c157d0205bb91
+</span>
+<span class='fragment fade-in'>~/git_talk $ cat .git/config
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+[remote "origin"]
+	url = git@git.jazzbr.com:gustavosales/git_talk.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+</span>
+</code></pre>
+					</section>
+
+					<section>
+						<h2>Refspec</h2>
+						<pre><code class='no-highlight'>~/git_talk $ cat .git/config
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+[remote "origin"]
+	url = git@git.jazzbr.com:gustavosales/git_talk.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+
+<span class='fragment fade-in'>~/git_talk $ git log origin/master > log_origin_master
+
+~/git_talk $ git log remotes/origin/master | diff log_origin_master -
+
+~/git_talk $ git log refs/remotes/origin/master | diff log_origin_master -
+</span>
+<span class='fragment fade-in'>~/git_talk $ git fetch origin master:refs/remotes/origin/mymaster
+From git.jazzbr.com:gustavosales/git_talk
+ * [new branch]      master -> origin/mymaster
+</span>
+<span class='fragment fade-in'>~/git_talk $ vim .git/config
+
+~/git_talk $ cat .git/config
+[core]
+  repositoryformatversion = 0
+  filemode = true
+  bare = false
+  logallrefupdates = true
+  ignorecase = true
+[remote "origin"]
+  url = git@git.jazzbr.com:gustavosales/git_talk.git
+  fetch = +refs/heads/*:refs/remotes/origin/*
+  push = refs/heads/master:refs/heads/qa/master
+</span>
+<span class='fragment fade-in'>~/git_talk $ git push
+To git@git.jazzbr.com:gustavosales/git_talk.git
+ * [new branch]      master -> qa/master
+</span>
+</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Topic Branching</h2>
+							<h3 class='fragment fade-in'>Workflow</h3>
+					</section>
+					<section>
+						<h2>Criando um branch</h2>
+						<pre><code class='no-highlight'>~/git_talk $ git branch feature_02
+
+~/git_talk $ git branch
+  feature_01
+  feature_02
+* master
+
+~/git_talk $ git checkout feature_02
+Switched to branch 'feature_02'
+
+~/git_talk $ git branch
+  feature_01
+* feature_02
+  master
+						</pre></code>
+					</section>
+
+					<section>
+						<h2>Implementando...</h2>
+						<pre><code class='no-highlight'>~/git_talk $ echo 'implementing feature_02' > file_002.txt
+
+~/git_talk $ git add file_002.txt
+
+~/git_talk $ git commit -a -m 'implements feature_02'
+[feature_02 3abe4df] implements feature_02
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+ create mode 100644 file_002.txt
+						</pre></code>
+					</section>
+
+					<section>
+						<h2>Envia para code review...</h2>
+						<pre><code class='no-highlight'>~/git_talk $ git push origin feature_02
+Counting objects: 4, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 312 bytes, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To git@git.jazzbr.com:gustavosales/git_talk.git
+ * [new branch]      feature_02 -> feature_02
+ 						</pre></code>
+ 					</section>
+ 					<section>
+						<h2>Recebe o OK</h2>
+						<h1 class='fragment fade-in'>Ou não</h1>
+					</section>
+
+					<section>
+					<h2>Mergeia com o master</h2>
+						<pre><code class='no-highlight'>~/git_talk $ git checkout master
+Switched to branch 'master'
+
+gustavosales@gustavo:~/git_talk ruby-1.9.3-p392
+(master)$ git merge feature_02
+Updating 5832d50..3abe4df
+Fast-forward
+ file_002.txt |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+ create mode 100644 file_002.txt
+ 						</pre></code>
+ 					</section>
+
+ 					<section>
+					<h2>Limpando a sujeira</h2>
+						<pre><code class='no-highlight'>~/git_talk $ git branch -d feature_02
+Deleted branch feature_02 (was 3abe4df).
+
+<span class='fragment fade-in'>~/git_talk $ git push origin :feature_02
+To git@git.jazzbr.com:gustavosales/git_talk.git
+ - [deleted]         feature_02
+</span>
+ 						</pre></code>
+ 					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Conflitos</h2>
+					</section>
+
+					<section>
+						<h2>Exemplo</h2>
+						<pre><code class='no-highlight'>~/git_talk $ git merge iss53
+Auto-merging index.html
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.
+
+<span class='fragment fade-in'>~/git_talk $ git status
+index.html: needs merge
+# On branch master
+# Changes not staged for commit:
+#   (use "git add < file >..." to update what will be committed)
+#   (use "git checkout -- < file >..." to discard changes in working directory)
+#
+#   unmerged:   index.html
+#
+(...)
+</span>
+ 						</pre></code>
+ 					</section>
+
+ 					<section>
+						<h2>Edite o arquivo</h2>
+						<pre><code>
+<<<<<<< HEAD:index.html
+< div id="footer" >contact : email.support@github.com< /div >
+=======
+< div id="footer" >
+  please contact us at support@github.com
+< /div >
+>>>>>>> iss53:index.html
+ 						</pre></code>
+ 					</section>
+
+					<section>
+						<h2>Adicione ao commit</h2>
+						<pre><code class='no-highlight'>(...)
+#   unmerged:   index.html
+#
+(...)
+
+~/git_talk $ vim index.html
+
+~/git_talk $ git add index.html
+
+~/git_talk $ git status
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD < file >..." to unstage)
+#
+#   modified:   index.html
+#
+(...)</pre></code>
+ 					</section>
+
+ 					<section>
+						<h2>Commite e Pushe</h2>
+						<pre><code class='no-highlight'>~/git_talk $ git add index.html
+
+~/git_talk $ git status
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD < file >..." to unstage)
+#
+#   modified:   index.html
+#
+(...)
+
+
+~/git_talk $ git commit
+
+~/git_talk $ git push origin master
+</pre></code>
+ 					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Referências</h2>
+						<a href='http://git-scm.com/book'>Git book</a><br />
+						<a href='http://blip.tv/akitaonrails/screencast-come-ando-com-git-6074964'>Screencast do Akita</a>
+					</section>
+					<section>
+						<h2>Perguntas?</h2>
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
